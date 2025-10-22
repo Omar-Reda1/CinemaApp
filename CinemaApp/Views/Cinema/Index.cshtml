@@ -1,0 +1,176 @@
+﻿@model IEnumerable<Cinema>
+
+@{
+    ViewData["Title"] = "Cinemas List";
+}
+
+<style>
+    .card {
+        width: 250px;
+        height: 250px;
+        border-radius: 15px;
+        background: rgba(105, 13, 197, 0.103);
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card::before {
+            content: "";
+            height: 100px;
+            width: 100px;
+            position: absolute;
+            top: -40%;
+            left: -20%;
+            border-radius: 50%;
+            border: 35px solid rgba(255, 255, 255, 0.102);
+            transition: all .8s ease;
+            filter: blur(.5rem);
+        }
+
+        .card:hover::before {
+            width: 140px;
+            height: 140px;
+            top: -30%;
+            left: 50%;
+            filter: blur(0rem);
+        }
+
+    .text {
+        flex-grow: 1;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        color: aliceblue;
+        font-weight: 900;
+        font-size: 1.2em;
+        text-align: center;
+    }
+
+        .text img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 10px auto;
+        }
+
+    .subtitle {
+        font-size: .8em;
+        font-weight: 300;
+        color: rgba(240, 248, 255, 0.8);
+        margin-top: 5px;
+    }
+
+    .icons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding-bottom: 10px;
+    }
+
+    .btn {
+        border: none;
+        width: 80px;
+        height: 35px;
+        background-color: rgba(247, 234, 234, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 8px;
+        color: #000;
+    }
+
+    .Edit:hover {
+        background-color: rgb(255, 220, 90) !important;
+    }
+
+    .Danger:hover {
+        background-color: rgb(230, 60, 80) !important;
+    }
+
+    .btn:hover {
+        background-color: rgb(80, 150, 230); /* أزرق سماوي ناعم */
+    }
+</style>
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary">🎬 Cinemas List</h2>
+        <a asp-action="Create" class="btn btn-primary">+ Add</a>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div data-aos="fade-up" class="d-flex flex-wrap justify-content-center gap-4">
+            @foreach (var cinema in Model)
+            {
+                <div data-aos="fade-up" class="card">
+                    <div class="text">
+                        <img src="~/images/Cinemas/@cinema.Image" alt="@cinema.Name" />
+                        <span>@cinema.Name</span>
+                        <p class="subtitle">Cinema</p>
+                    </div>
+                    <div class="icons">
+                        <a asp-action="Edit" asp-route-id="@cinema.Id" class="btn Edit">Edit</a>
+                        <form class="delete-btn" asp-action="Delete" asp-route-id="@cinema.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn Danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-muted text-center">No cinemas found.</p>
+    }
+</div>
+
+<script>
+    document.querySelectorAll(".delete-btn").forEach(form => {
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            Swal.fire({
+                title: "Are you sure you want to Delete this Cinema ?",
+                text: "The Cinema will be Delete now",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Yes Delete it",
+                cancelButtonText: "Cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Deleted successfully",
+                        text: "The Cinema has been Deleted",
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false,
+                        willClose: () => {
+                            form.submit(); // Submit the correct form
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Cancelled",
+                        text: "The Cinema was not Deleted",
+                        icon: "info",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        });
+    });
+</script>

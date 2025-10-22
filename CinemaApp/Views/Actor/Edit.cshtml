@@ -1,0 +1,81 @@
+﻿@model Actor
+
+@{
+    ViewData["Title"] = "Edit Actor";
+}
+
+<div data-aos="fade-up" class="container my-5">
+    <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 500px; margin: auto;">
+        <h2 class="text-center text-primary mb-4">Edit Actor</h2>
+
+        <form id="EditForm" asp-action="Edit" asp-controller="Actor" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+
+            <!-- Name -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Name</label>
+                <input asp-for="Name" class="form-control" placeholder="Enter actor name" />
+            </div>
+
+            <!-- Current Image -->
+            @if (!string.IsNullOrEmpty(Model.Image))
+            {
+                <div class="mb-3 text-center">
+                    <label class="form-label fw-bold">Current Image</label>
+                    <div>
+                        <img src="~/images/Actors/@Model.Image" alt="Actor Image"
+                             class="img-thumbnail rounded-3 shadow-sm"
+                             style="width: 120px; height: 140px; object-fit: cover;">
+                    </div>
+                </div>
+            }
+
+            <!-- Upload New Image -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Change Image</label>
+                <input type="file" name="Img" class="form-control" />
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-outline-secondary px-4">Back</a>
+                <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    document.getElementById("EditForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent automatic submission
+
+        Swal.fire({
+            title: "Are you sure you want to Edit this Actor ?",
+            text: "The Actor will be change now",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes Change it",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Saved successfully",
+                    text: "The Actor has been Change",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    willClose: () => {
+                        e.target.submit(); // Submit the form after the success message
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Cancelled",
+                    text: "The Actor was not Change",
+                    icon: "info",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    });
+</script>

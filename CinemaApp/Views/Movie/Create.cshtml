@@ -1,0 +1,168 @@
+﻿@using CinemaApp.ViewModels
+@{
+    ViewData["Title"] = "Create Movie";
+}
+
+@model MoviesVM
+
+<div data-aos="fade-up" class="container my-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white fw-bold fs-5 d-flex justify-content-between align-items-center">
+            <span>Create New Movie</span>
+
+            <a href="/Movie/Index" title="Back to List"
+               class="icon-btn d-flex align-items-center justify-content-center">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     width="28"
+                     height="28"
+                     viewBox="0 0 24 24"
+                     class="icon-plus">
+                    <path d="M15 18L9 12L15 6" stroke-width="1.5"></path>
+                </svg>
+            </a>
+        </div>
+
+        <div class="card-body p-4">
+            <form id="movieForm" asp-action="Create" method="post" enctype="multipart/form-data">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Movie Name</label>
+                        <input class="form-control" placeholder="Enter movie name" name="Name" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Price</label>
+                        <input class="form-control" type="number" placeholder="Enter price" name="Price" />
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Description</label>
+                        <textarea class="form-control" rows="3" placeholder="Enter movie description" name="Description"></textarea>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Status</label>
+                        <select name="Status" class="form-select">
+                            <option value="true">Available</option>
+                            <option value="false">Not Available</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Release Date</label>
+                        <input type="date" class="form-control" name="DateTime" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Main Image</label>
+                        <input type="file" class="form-control" name="Img" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Sub Images</label>
+                        <input type="file" multiple class="form-control" name="SubImgs" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Category</label>
+                        <select name="CategoryId" asp-items="ViewBag.CategoryList" class="form-select">
+                            @{
+                                <option value="">-- Select Category --</option>
+                                foreach (var item in Model.Categories)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+
+                                }
+                            }
+
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Cinema</label>
+                        <select name="CinemaId" asp-items="ViewBag.CinemaList" class="form-select">
+                            @{
+                                <option value="">-- Select Category --</option>
+                                foreach (var item in Model.Cinemas)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+
+                                }
+                            }
+                        </select>
+                    </div>
+
+
+                    <div class="col-12">
+                        <label class="form-label fw-semibold mb-0">Actors</label>
+
+                        <select name="Actors" asp-items="ViewBag.ActorsList" multiple class="form-select mt-2">
+                        </select>
+                        <small class="text-muted">Hold Ctrl (or Cmd) to select multiple actors</small>
+                    </div>
+
+                </div>
+
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-success px-4">Save Movie</button>
+                    <a href="/Movies" class="btn btn-secondary px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .icon-btn {
+        background: white;
+        border-radius: 50%;
+        width: 38px;
+        height: 38px;
+        transition: all 0.3s ease;
+    }
+
+        .icon-btn:hover {
+            background: #0d6efd;
+            transform: rotate(90deg);
+        }
+
+            .icon-btn:hover path {
+                stroke: white;
+            }
+</style>
+
+<script>
+    document.getElementById("movieForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent automatic submission
+
+        Swal.fire({
+            title: "Are you sure you want to save this movie ?",
+            text: "The movie will be saved now",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes save it",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Saved successfully",
+                    text: "The movie has been added",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    willClose: () => {
+                        e.target.submit(); // Submit the form after the success message
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Cancelled",
+                    text: "The movie was not saved",
+                    icon: "info",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    });
+</script>

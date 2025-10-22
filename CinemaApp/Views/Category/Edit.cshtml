@@ -1,0 +1,68 @@
+﻿@model Category
+
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<div data-aos="fade-up" class="container my-5">
+    <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 500px; margin: auto;">
+        <h2 class="text-center text-primary mb-4">Edit Category</h2>
+
+        <form id="EditCategoryForm" asp-action="Edit" asp-controller="Category" method="post">
+            <input type="hidden" asp-for="Id" />
+
+            <!-- Name -->
+            <div class="mb-3">
+                <label class="form-label fw-bold">Category Name</label>
+                <input asp-for="Name" class="form-control" placeholder="Enter category name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-outline-secondary px-4">Back</a>
+                <button type="submit" class="btn btn-primary px-4">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById("EditCategoryForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // منع الإرسال الفوري
+
+        Swal.fire({
+            title: "Are you sure you want to Edit this Category?",
+            text: "The Category will be changed now",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes Change it",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Saved successfully",
+                    text: "The Category has been changed",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    willClose: () => {
+                        e.target.submit(); // تنفيذ الإرسال بعد ظهور الرسالة
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Cancelled",
+                    text: "The Category was not changed",
+                    icon: "info",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    });
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

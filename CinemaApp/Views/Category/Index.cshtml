@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Categories List";
+}
+
+<div data-aos="fade-up" class="container my-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white fw-bold fs-5 d-flex justify-content-between align-items-center">
+            <span>Categories List</span>
+
+            <div class="d-flex align-items-center gap-3">
+                <a href="/Category/Create" title="Add New Category"
+                   class="icon-btn d-flex align-items-center justify-content-center">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="32"
+                         height="32"
+                         viewBox="0 0 24 24"
+                         class="icon-plus">
+                        <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
+                              stroke-width="1.5"></path>
+                        <path d="M8 12H16" stroke-width="1.5"></path>
+                        <path d="M12 16V8" stroke-width="1.5"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead data-aos="fade-up" class="table-primary">
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody data-aos="fade-up">
+                        @foreach (var item in Model)
+                        {
+                            <tr data-aos="fade-up">
+                                <th>@item.Id</th>
+                                <td>@item.Name</td>
+                                <td>
+                                    <div class="d-inline-flex gap-2">
+                                        <a asp-action="Edit" asp-controller="Category" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        <form class="DeleteBtn" asp-action="Delete" asp-controller="Category" asp-route-id="@item.Id" method="post" style="display:inline;">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // SweetAlert for all delete buttons
+    document.querySelectorAll(".DeleteBtn").forEach(form => {
+        form.addEventListener("submit", function (e) {
+            e.preventDefault(); // منع الحذف الفوري
+
+            Swal.fire({
+                title: "Are you sure you want to Delete this Category?",
+                text: "The Category will be deleted now",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Yes Delete it",
+                cancelButtonText: "Cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Deleted successfully",
+                        text: "The Category has been deleted",
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false,
+                        willClose: () => {
+                            e.target.submit(); // تنفيذ الحذف بعد الرسالة
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Cancelled",
+                        text: "The Category was not deleted",
+                        icon: "info",
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        });
+    });
+</script>
+

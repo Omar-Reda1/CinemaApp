@@ -1,0 +1,66 @@
+﻿@model Category
+
+@{
+    ViewData["Title"] = "Add New Category";
+}
+
+<div data-aos="fade-up" class="container my-5">
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header bg-primary text-white fw-bold fs-5">
+            Add New Category
+        </div>
+        <div class="card-body">
+            <form id="CategoryForm" asp-action="Create" asp-controller="Category" method="post">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Category Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter category name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-success px-4">Save</button>
+                <a asp-action="Index" asp-controller="Category" class="btn btn-secondary px-4">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("CategoryForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // منع الإرسال الفوري
+
+        Swal.fire({
+            title: "Are you sure you want to save this Category?",
+            text: "The Category will be saved now",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes save it",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Saved successfully",
+                    text: "The Category has been added",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    willClose: () => {
+                        e.target.submit(); // تنفيذ الإرسال بعد ظهور الرسالة
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Cancelled",
+                    text: "The Category was not saved",
+                    icon: "info",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    });
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,135 @@
+﻿@model Movie
+
+@{
+    ViewData["Title"] = "Edit Movie";
+}
+
+<div data-aos="fade-up" class="container my-5">
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header bg-warning text-white fw-bold fs-5">
+            Edit Movie
+        </div>
+        <div class="card-body">
+            <form id="EditForm" asp-action="Edit" asp-controller="Movie" method="post" enctype="multipart/form-data">
+
+                <!-- Hidden Id -->
+                <input type="hidden" asp-for="Id" />
+
+                <!-- Movie Title -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Movie Title</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter movie title" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="4" placeholder="Enter description"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <!-- Price -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Price</label>
+                    <input asp-for="Price" type="number" step="0.01" class="form-control" placeholder="Enter price" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <!-- Category -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Category</label>
+                    <select asp-for="CategoryId" class="form-select"
+                            asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <!-- Cinema -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Cinema</label>
+                    <select asp-for="CinemaId" class="form-select"
+                            asp-items="@(new SelectList(ViewBag.Cinemas, "Id", "Name"))">
+                        <option value="">-- Select Cinema --</option>
+                    </select>
+                    <span asp-validation-for="CinemaId" class="text-danger"></span>
+                </div>
+
+                <!-- Actors -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Actors</label>
+                    <select asp-for="Actors" name="Actors" asp-items="ViewBag.ActorsList" multiple class="form-select">
+                    </select>
+                    <small class="text-muted">Hold Ctrl (or Cmd) to select multiple actors</small>
+                </div>
+
+                <!-- Current Main Image -->
+                @if (!string.IsNullOrEmpty(Model.MainImage))
+                {
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Current Main Image</label><br />
+                        <img src="~/images/@Model.MainImage" alt="Movie Image" width="120" class="rounded shadow-sm mb-2" />
+                    </div>
+                }
+
+                <!-- Upload New Main Image -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Change Main Image</label>
+                    <input type="file" name="Img" class="form-control" />
+                </div>
+
+                <!-- Sub Images -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Change Sub Images</label>
+                    <input type="file" name="SubImgs" multiple class="form-control" />
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex gap-3">
+                    <button type="submit" class="btn btn-success px-4">Save Changes</button>
+                    <a asp-action="Index" asp-controller="Movie" class="btn btn-secondary px-4">Cancel</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("EditForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent automatic submission
+
+        Swal.fire({
+            title: "Are you sure you want to Change this movie ?",
+            text: "The movie will be Chande now",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes Change it",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Changed successfully",
+                    text: "The movie has been Changed",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    willClose: () => {
+                        e.target.submit(); // Submit the form after the success message
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Cancelled",
+                    text: "The movie was not Change",
+                    icon: "info",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    });
+</script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

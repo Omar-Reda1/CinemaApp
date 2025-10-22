@@ -1,0 +1,124 @@
+﻿@model Cinema
+
+@{
+    ViewData["Title"] = "Edit Cinema";
+}
+
+<style>
+    .edit-container {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 30px;
+        background: rgba(105, 13, 197, 0.1);
+        border-radius: 15px;
+        box-shadow: 1px 5px 60px 0px #100a886b;
+        color: #fff;
+        font-family: Arial, sans-serif;
+    }
+
+        .edit-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .edit-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .edit-container input[type="text"],
+        .edit-container input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+        }
+
+        .edit-container button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background-color: #6b64f3;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            .edit-container button:hover {
+                background-color: #4e45c2;
+            }
+
+    .current-image {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+        .current-image img {
+            width: 150px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #fff;
+        }
+</style>
+
+<div class="edit-container">
+    <h2>✏️ Edit Cinema</h2>
+
+    <form id="EditForm" asp-action="Edit" asp-controller="Cinema" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+
+        <label for="Name">Cinema Name</label>
+        <input type="text" id="Name" name="Name" asp-for="Name" required />
+
+        <div class="current-image">
+            <label>Current Image:</label><br />
+            <img src="~/images/Cinemas/@Model.Image" alt="@Model.Name" />
+        </div>
+
+        <label for="Image">Change Image (optional)</label>
+        <input type="file" id="Image" name="Image" accept="image/*" />
+
+        <button type="submit">Update Cinema</button>
+    </form>
+</div>
+<script>
+    document.getElementById("EditForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent automatic submission
+
+        Swal.fire({
+            title: "Are you sure you want to Edit this Cinema ?",
+            text: "The Cinema will be change now",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes save it",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Saved successfully",
+                    text: "The Cinema has been Change",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    willClose: () => {
+                        e.target.submit(); // Submit the form after the success message
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Cancelled",
+                    text: "The Cinema was not Change",
+                    icon: "info",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    });
+</script>

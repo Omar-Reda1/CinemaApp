@@ -1,0 +1,58 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+    color: var(--bs-secondary-color);
+    text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+    text-align: start;
+}
+
+/*--------------------------------button Create -------------------------------------*/
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white; /* «·Œ·›Ì… «·»Ì÷«¡  Ê÷Õ «··Ê‰ */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+    .icon-btn:hover {
+        transform: rotate(90deg);
+        background-color: #e7f1ff; /* ·Ê‰ Œ›Ì› ⁄‰œ «·„—Ê— */
+    }
+
+.icon-plus {
+    stroke: #0d6efd; /* ·Ê‰ √“—ﬁ √”«”Ì */
+    fill: none;
+    transition: all 0.3s ease;
+}
+
+.icon-btn:hover .icon-plus {
+    stroke: #0b5ed7; /* √“—ﬁ √€„ﬁ ‘ÊÌ… ⁄‰œ hover */
+    fill: #0d6efd20; /* ·„”… ‘›«›… Œ›Ì›… */
+}

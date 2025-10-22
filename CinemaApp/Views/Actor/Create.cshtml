@@ -1,0 +1,69 @@
+﻿@model Actor
+
+@{
+    ViewData["Title"] = "Add New Actor";
+}
+
+<div data-aos="fade-up" class="container my-5">
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header bg-primary text-white fw-bold fs-5">
+            Add New Actor
+        </div>
+        <div class="card-body">
+            <form id="ActorForm" asp-action="Create" asp-controller="Actor" method="post" enctype="multipart/form-data">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Actor Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Enter actor name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Image</label>
+                    <input type="file" name="Img" class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-success px-4">Save</button>
+                <a asp-action="Index" asp-controller="Actor" class="btn btn-secondary px-4">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("ActorForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent automatic submission
+
+        Swal.fire({
+            title: "Are you sure you want to save this Actor ?",
+            text: "The Actor will be saved now",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonText: "Yes save it",
+            cancelButtonText: "Cancel"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Saved successfully",
+                    text: "The Actor has been added",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false,
+                    willClose: () => {
+                        e.target.submit(); // Submit the form after the success message
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Cancelled",
+                    text: "The Actor was not saved",
+                    icon: "info",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        });
+    });
+</script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
