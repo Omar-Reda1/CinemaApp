@@ -10,7 +10,7 @@
             <span>Categories List</span>
 
             <div class="d-flex align-items-center gap-3">
-                <a href="/Category/Create" title="Add New Category"
+                <a asp-area="Admin" asp-controller="Category" asp-action="Create" title="Add New Category"
                    class="icon-btn d-flex align-items-center justify-content-center">
                     <svg xmlns="http://www.w3.org/2000/svg"
                          width="32"
@@ -44,8 +44,8 @@
                                 <td>@item.Name</td>
                                 <td>
                                     <div class="d-inline-flex gap-2">
-                                        <a asp-action="Edit" asp-controller="Category" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
-                                        <form class="DeleteBtn" asp-action="Delete" asp-controller="Category" asp-route-id="@item.Id" method="post" style="display:inline;">
+                                        <a asp-area="Admin" asp-action="Edit" asp-controller="Category" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        <form class="DeleteBtn" asp-area="Admin" asp-action="Delete" asp-controller="Category" asp-route-id="@item.Id" method="post" style="display:inline;">
                                             <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
                                         </form>
                                     </div>

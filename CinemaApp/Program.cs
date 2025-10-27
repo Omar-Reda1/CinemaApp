@@ -1,3 +1,7 @@
+using CinemaApp.Repositories;
+using CinemaApp.Repositories.IRepositories;
+using Microsoft.EntityFrameworkCore;
+
 namespace CinemaApp
 {
     public class Program
@@ -8,6 +12,15 @@ namespace CinemaApp
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection")
+                ));
+
+            builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
 
             var app = builder.Build();
 
@@ -27,7 +40,7 @@ namespace CinemaApp
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{area=Admin}/{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();

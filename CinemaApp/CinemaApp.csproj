@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Customer\Controllers\" />
+    <Folder Include="Areas\Customer\Views\" />
     <Folder Include="wwwroot\Images\Actors\" />
     <Folder Include="wwwroot\Images\Cinemas\" />
     <Folder Include="wwwroot\Images\MovieSubImg\" />

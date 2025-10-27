@@ -2,8 +2,9 @@ using System.Diagnostics;
 using CinemaApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CinemaApp.Controllers
+namespace CinemaApp.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

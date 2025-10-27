@@ -1,17 +1,8 @@
-﻿@model IEnumerable<Movie>
-@if (TempData["success"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["success"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+﻿﻿@{
+ViewData["Title"] = "Home Page";
 }
-
-
-
-@{
-    ViewData["Title"] = "Home Page";
-}
+@model IEnumerable<Movie>
+<!-- Bootstrap CSS -->
 
 <div data-aos="fade-up" class="container my-5">
     <div class="card shadow-lg border-0 rounded-4">
@@ -19,7 +10,7 @@
             <span>Movies List</span>
 
             <div class="d-flex align-items-center gap-3">
-                <a href="/Movie/Create" title="Add New Movie"
+                <a href="/Admin/Movie/Create" title="Add New Movie"
                    class="icon-btn d-flex align-items-center justify-content-center">
                     <svg xmlns="http://www.w3.org/2000/svg"
                          width="32"
@@ -34,12 +25,16 @@
                 </a>
             </div>
         </div>
+
+
+
+
         <div class="card-body p-4">
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
                     <thead data-aos="fade-up" class="table-primary">
                         <tr data-aos="fade-up">
-                            <th>Id</th>
+                            <th>#</th>
                             <th>Movie</th>
                             <th>Category</th>
                             <th>Cinema</th>
@@ -130,6 +125,3 @@
         });
     });
 </script>
-
-
-
