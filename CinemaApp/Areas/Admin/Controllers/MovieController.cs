@@ -87,10 +87,10 @@ namespace CinemaApp.Areas.Admin.Controllers
             }
 
             // حفظ الصورة الأساسية
-            if (MainImage != null && MainImage.Length > 0)
+            if (MainImage is not null && MainImage.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(MainImage.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", fileName);
 
                 using (var stream = System.IO.File.Create(filePath))
                 {
@@ -100,7 +100,7 @@ namespace CinemaApp.Areas.Admin.Controllers
                 movie.MainImage = fileName;
             }
 
-            // حفظ الصور الفرعية
+           
             if (SubImages != null && SubImages.Count > 0)
             {
                 movie.SubImages = new List<string>();
@@ -108,7 +108,7 @@ namespace CinemaApp.Areas.Admin.Controllers
                 foreach (var subImg in SubImages)
                 {
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(subImg.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/MovieSubImg", fileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/MovieSubImg", fileName);
 
                     using (var stream = System.IO.File.Create(filePath))
                     {
@@ -194,7 +194,7 @@ namespace CinemaApp.Areas.Admin.Controllers
             if (Img != null && Img.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(Img.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images", fileName);
 
                 using (var stream = System.IO.File.Create(filePath))
                 {
@@ -212,7 +212,7 @@ namespace CinemaApp.Areas.Admin.Controllers
                 foreach (var subImg in SubImgs)
                 {
                     var fileName = Guid.NewGuid().ToString() + Path.GetExtension(subImg.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/MovieSubImg", fileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/MovieSubImg", fileName);
 
                     using (var stream = System.IO.File.Create(filePath))
                     {

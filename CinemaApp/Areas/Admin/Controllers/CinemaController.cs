@@ -33,7 +33,7 @@ namespace CinemaApp.Areas.Admin.Controllers
             if (Image != null && Image.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(Image.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Cinemas", fileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Cinemas", fileName);
 
                 using (var stream = System.IO.File.Create(filePath))
                 {
@@ -72,14 +72,14 @@ namespace CinemaApp.Areas.Admin.Controllers
                 // حذف الصورة القديمة لو موجودة
                 if (!string.IsNullOrEmpty(existingCinema.Image))
                 {
-                    var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Cinemas", existingCinema.Image);
+                    var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Cinemas", existingCinema.Image);
                     if (System.IO.File.Exists(oldPath))
                         System.IO.File.Delete(oldPath);
                 }
 
                 // حفظ الصورة الجديدة
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(Image.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Cinemas", fileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Cinemas", fileName);
 
                 using (var stream = System.IO.File.Create(filePath))
                 {
@@ -102,7 +102,7 @@ namespace CinemaApp.Areas.Admin.Controllers
             {
                 if (!string.IsNullOrEmpty(cinema.Image))
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/Cinemas", cinema.Image);
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Cinemas", cinema.Image);
                     if (System.IO.File.Exists(path))
                         System.IO.File.Delete(path);
                 }

@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication1</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Customer/styles.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebApplication1.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <button class="navbar-menu-btn">
+                <span class="one"></span>
+                <span class="two"></span>
+                <span class="three"></span>
+            </button>
+
+            <a href="#" class="navbar-brand">
+                <img src="https://i.postimg.cc/KvjKVZXj/logo.png" alt="logo" />
+            </a>
+
+            <nav class="">
+                <ul class="navbar-nav">
+                    <li><a href="#" class="navbar-link">Home</a></li>
+                    <li><a href="#category" class="navbar-link">Category</a></li>
+                    <li><a href="#live" class="navbar-link indicator">LIVE</a></li>
+                </ul>
+            </nav>
+
+            <div class="navbar-actions">
+                <form action="#" class="navbar-form">
+                    <input type="text"
+                           name="search"
+                           placeholder="I'm looking for..."
+                           class="navbar-form-search" />
+
+                    <button class="navbar-form-btn">
+                        <ion-icon name="search"></ion-icon>
+                    </button>
+
+                    <button class="navbar-form-close">
+                        <ion-icon name="close-circle-outline"></ion-icon>
+                    </button>
+                </form>
+
+                <button class="navbar-search-btn">
+                    <ion-icon name="search"></ion-icon>
+                </button>
+
+                <a href="#" class="navbar-signin">
+                    <span>Sign In</span>
+                    <ion-icon name="log-in"></ion-icon>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-content container text-center">
+            <div class="footer-links">
+                <ul>
+                    <h4 class="link-heading">CineFlix</h4>
+
+                    <li class="link-item"><a href="#">About us</a></li>
+                    <li class="link-item"><a href="#">My profile</a></li>
+                    <li class="link-item"><a href="#">Pricing plans</a></li>
+                    <li class="link-item"><a href="#">Contacts</a></li>
+                </ul>
+
+                <ul>
+                    <h4 class="link-heading">Browse</h4>
+
+                    <li class="link-item"><a href="#">Live TV</a></li>
+                    <li class="link-item"><a href="#">Live News</a></li>
+                    <li class="link-item"><a href="#">Live Sports</a></li>
+                    <li class="link-item"><a href="#">Streaming Library</a></li>
+                </ul>
+
+                <ul>
+                    <h4 class="link-heading">Brand</h4>
+
+                    <li class="link-item"><a href="#">TV Shows</a></li>
+                    <li class="link-item"><a href="#">Movies</a></li>
+                    <li class="link-item"><a href="#">Kids</a></li>
+                    <li class="link-item"><a href="#">Collections</a></li>
+                </ul>
+
+                <ul>
+                    <h4 class="link-heading">Help</h4>
+
+                    <li class="link-item"><a href="#">Account & Billing</a></li>
+                    <li class="link-item"><a href="#">Plans & Pricing</a></li>
+                    <li class="link-item"><a href="#">Supported Devices</a></li>
+                    <li class="link-item"><a href="#">Accessibility</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-copyright">
+            <div class="copyright">
+                <p>© Copyright 2024 CineFlix</p>
+            </div>
+
+            <div class="wrapper">
+                <a href="#">Privacy policy</a>
+                <a href="#">Terms and conditions</a>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/Customer/script.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

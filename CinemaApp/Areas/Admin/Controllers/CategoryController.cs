@@ -24,7 +24,7 @@ namespace CinemaApp.Areas.Admin.Controllers
             return View();
         }
         
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Create(Category category)
         {
             if (!ModelState.IsValid)

@@ -36,7 +36,7 @@ namespace CinemaApp.Areas.Admin.Controllers
             if (Image != null && Image.Length > 0)
             {
                 var fileName = Guid.NewGuid() + Path.GetExtension(Image.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "images/Actors", fileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Actors", fileName);
 
                 using (var stream = System.IO.File.Create(filePath))
                 {
@@ -75,13 +75,13 @@ namespace CinemaApp.Areas.Admin.Controllers
             {
                 if (!string.IsNullOrEmpty(existing.Image))
                 {
-                    var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "images/Actors", existing.Image);
+                    var oldPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Actors", existing.Image);
                     if (System.IO.File.Exists(oldPath))
                         System.IO.File.Delete(oldPath);
                 }
 
                 var fileName = Guid.NewGuid() + Path.GetExtension(Img.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "images/Actors", fileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Actors", fileName);
 
                 using (var stream = System.IO.File.Create(filePath))
                 {
@@ -106,7 +106,7 @@ namespace CinemaApp.Areas.Admin.Controllers
 
             if (!string.IsNullOrEmpty(actor.Image))
             {
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "images/Actors", actor.Image);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Actors", actor.Image);
                 if (System.IO.File.Exists(path))
                     System.IO.File.Delete(path);
             }
