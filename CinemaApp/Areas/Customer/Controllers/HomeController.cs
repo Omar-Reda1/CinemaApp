@@ -15,7 +15,7 @@ namespace CinemaApp.Areas.Customer.Controllers
 
         public IActionResult Index(int? categoryId, int? cinemaId, int page = 1)
         {
-            int pageSize = 8; 
+            int pageSize = 4;  
 
             var moviesQuery = _context.Movies
                 .Include(m => m.Category)
@@ -29,19 +29,19 @@ namespace CinemaApp.Areas.Customer.Controllers
             var cinemas = _context.Cinemas
                 .OrderBy(c => c.Name)
                 .ToList();
-
-            if (categoryId.HasValue)
+            //Filtering
+            if (categoryId is not null)
             {
                 moviesQuery = moviesQuery.Where(m => m.CategoryId == categoryId.Value);
                 ViewBag.CategoryId = categoryId.Value;
             }
 
-            if (cinemaId.HasValue)
+            if (cinemaId is not null)
             {
                 moviesQuery = moviesQuery.Where(m => m.CinemaId == cinemaId.Value);
                 ViewBag.CinemaId = cinemaId.Value;
             }
-
+            //Pagination
             int totalMovies = moviesQuery.Count();
             int totalPages = (int)Math.Ceiling(totalMovies / (double)pageSize);
 
@@ -62,10 +62,7 @@ namespace CinemaApp.Areas.Customer.Controllers
 
         public IActionResult Details(int id)
         {
-            var movie = _context.Movies
-                .Include(m => m.Category)
-                .Include(m => m.Cinema)
-                .Include(m => m.MovieActors!)
+            var movie = _context.Movies.Include(m => m.Category).Include(m => m.Cinema).Include(m => m.MovieActors!)
                     .ThenInclude(ma => ma.Actor)
                 .FirstOrDefault(m => m.Id == id);
 
