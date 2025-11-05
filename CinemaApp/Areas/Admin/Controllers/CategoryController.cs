@@ -35,7 +35,7 @@ namespace CinemaApp.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var category = await _categoryRepository.GetOneAsync(c => c.Id == id);
