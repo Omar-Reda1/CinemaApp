@@ -5,10 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Glassmorphism Login Form</title>
     <link rel="stylesheet" href="~/css/Identity/style.css"/>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
 </head>
 <body>
+    <partial name="_NotificationPartial" />
     @RenderBody()
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../shared/js/form-utils.js"></script>
     <script src="~/js/Identity/script.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

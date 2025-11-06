@@ -15,7 +15,7 @@ namespace CinemaApp.Areas.Customer.Controllers
 
         public IActionResult Index(int? categoryId, int? cinemaId, int page = 1)
         {
-            int pageSize = 4;  
+            int pageSize = 8;  
 
             var moviesQuery = _context.Movies
                 .Include(m => m.Category)

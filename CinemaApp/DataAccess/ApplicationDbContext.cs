@@ -17,6 +17,7 @@ namespace CinemaApp.DataAccess
         public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<MovieActor> MovieActors { get; set; }
+        public DbSet<ApplicationUserOTP> ApplicationUserOTPs { get; set; }
 
        
 

@@ -1,139 +1,143 @@
 ﻿@model IEnumerable<CinemaApp.Models.Movie>
 
 @{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
 <main class="main-home">
-    <div class="container my-5">
+	<div class="container my-5">
 
-        <form method="get" asp-action="Index" class="d-flex gap-3 mb-4">
-            <select name="categoryId" onchange="this.form.submit()" class="form-select bg-black text-white w-auto">
-                <option value="">All Categories</option>
-                @foreach (var cat in ViewBag.Categories)
-                {
-                    if (ViewBag.CategoryId != null && ViewBag.CategoryId == cat.Id)
-                    {
-                        <option value="@cat.Id" selected>@cat.Name</option>
-                    }
-                    else
-                    {
-                        <option value="@cat.Id">@cat.Name</option>
-                    }
-                }
-            </select>
+		<form method="get" asp-action="Index" class="d-flex gap-3 mb-4">
+			<select name="categoryId" onchange="this.form.submit()" class="form-select bg-black text-white w-auto">
+				<option value="">All Categories</option>
+				@foreach (var cat in ViewBag.Categories)
+				{
+					if (ViewBag.CategoryId != null && ViewBag.CategoryId == cat.Id)
+					{
+						<option value="@cat.Id" selected>@cat.Name</option>
+					}
+					else
+					{
+						<option value="@cat.Id">@cat.Name</option>
+					}
+				}
+			</select>
 
-            <select name="cinemaId" onchange="this.form.submit()" class="form-select bg-black text-white w-auto">
-                <option value="">All Cinemas</option>
-                @foreach (var cinema in ViewBag.Cinemas)
-                {
-                    if (ViewBag.CinemaId != null && ViewBag.CinemaId == cinema.Id)
-                    {
-                        <option value="@cinema.Id" selected>@cinema.Name</option>
-                    }
-                    else
-                    {
-                        <option value="@cinema.Id">@cinema.Name</option>
-                    }
-                }
-            </select>
-        </form>
+			<select name="cinemaId" onchange="this.form.submit()" class="form-select bg-black text-white w-auto">
+				<option value="">All Cinemas</option>
+				@foreach (var cinema in ViewBag.Cinemas)
+				{
+					if (ViewBag.CinemaId != null && ViewBag.CinemaId == cinema.Id)
+					{
+						<option value="@cinema.Id" selected>@cinema.Name</option>
+					}
+					else
+					{
+						<option value="@cinema.Id">@cinema.Name</option>
+					}
+				}
+			</select>
+		</form>
 
-       <div class="container">
-            <div class="row g-4 px-10">
-                @if (!Model.Any())
-                {
-                    <p class="text-muted">No movies found.</p>
-                }
-                else
-                {
-                    @foreach (var item in Model)
-                    {
-                        <div class="col-md-3 col-sm-6">
-                            <div class="card shadow-sm border-0 h-100">
+		<div class="container">
+			<div class="row g-4 px-10">
+				@if (!Model.Any())
+				{
+					<p class="text-muted">No movies found.</p>
+				}
+				else
+				{
+					@foreach (var item in Model)
+					{
+						<div class="col-md-3 col-sm-6">
+							<div class="card shadow-sm border-0 h-100">
 
-                                @{
-                                    // تحديد مسار الصورة
-                                    string imagePath;
-                                    if (string.IsNullOrEmpty(item.MainImage))
-                                    {
-                                        imagePath = Url.Content("~/Images/default-movie.jpg");
-                                    }
-                                    else
-                                    {
-                                        imagePath = Url.Content("~/Images/" + item.MainImage);
-                                    }
-                                }
+								@{
+									// تحديد مسار الصورة
+									string imagePath;
+									if (string.IsNullOrEmpty(item.MainImage))
+									{
+										imagePath = Url.Content("~/Images/default-movie.jpg");
+									}
+									else
+									{
+										imagePath = Url.Content("~/Images/" + item.MainImage);
+									}
+								}
 
-                                <img src="@imagePath" class="card-img-top card-top" alt="@item.Name" style="object-fit: cover;" />
+								<img src="@imagePath" class="card-img-top card-top" alt="@item.Name" style="object-fit: cover;" />
 
-                                <div class="card-body text-center text-white border-5" style="background-color: #192237f0;">
-                                    <h5 class="card-title fw-bold">@item.Name</h5>
+								<div class="card-body text-center text-white border-5" style="background-color: #192237f0;">
+									<h5 class="card-title fw-bold">@item.Name</h5>
 
-                                    <p class="card-text mb-1">
-                                        <strong>Category:</strong>
-                                        @(item.Category != null ? item.Category.Name : "No category")
-                                    </p>
+									<p class="card-text mb-1">
+										<strong>Category:</strong>
+										@(item.Category != null ? item.Category.Name : "No category")
+									</p>
 
-                                    <p class="card-text">
-                                        <strong>Cinema:</strong>
-                                        @(item.Cinema != null ? item.Cinema.Name : "No cinema")
-                                    </p>
+									<p class="card-text">
+										<strong>Cinema:</strong>
+										@(item.Cinema != null ? item.Cinema.Name : "No cinema")
+									</p>
 
-                                    <a asp-controller="Home" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm mt-2">
-                                        View Details
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
-        </div>
-    </div>
-    <!-- Pagination -->
-    @if (ViewBag.TotalPages > 1)
-    {
-        <nav aria-label="Movie pages" class="mt-4">
-            <ul class="pagination justify-content-center">
+									<a asp-controller="Home" asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm mt-2">
+										View Details
+									</a>
+								</div>
+							</div>
+						</div>
+					}
+				}
+			</div>
+		</div>
+	</div>
+	<!-- Pagination -->
+	@if (ViewBag.TotalPages > 1)
+	{
+		<nav aria-label="Movie pages" class="mt-4">
+			<ul class="pagination justify-content-center">
 
-                <!-- Previous -->
-                <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
-                    <a class="page-link"
-                       asp-action="Index"
-                       asp-route-categoryId="@ViewBag.CategoryId"
-                       asp-route-cinemaId="@ViewBag.CinemaId"
-                       asp-route-page="@(ViewBag.CurrentPage - 1)">
-                        Previous
-                    </a>
-                </li>
+				<!-- Previous -->
+				<li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+					<a class="page-link"
+					   asp-action="Index"
+					   asp-route-categoryId="@ViewBag.CategoryId"
+					   asp-route-cinemaId="@ViewBag.CinemaId"
+					   asp-route-page="@(ViewBag.CurrentPage - 1)">
+						Previous
+					</a>
+				</li>
 
-                <!-- Page Numbers -->
-                @for (int i = 1; i <= ViewBag.TotalPages; i++)
-                {
-                    <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
-                        <a class="page-link"
-                           asp-action="Index"
-                           asp-route-categoryId="@ViewBag.CategoryId"
-                           asp-route-cinemaId="@ViewBag.CinemaId"
-                           asp-route-page="@i">
-                            @i
-                        </a>
-                    </li>
-                }
+				<!-- Page Numbers -->
+				@for (int i = 1; i <= ViewBag.TotalPages; i++)
+				{
+					<li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+						<a class="page-link"
+						   asp-action="Index"
+						   asp-route-categoryId="@ViewBag.CategoryId"
+						   asp-route-cinemaId="@ViewBag.CinemaId"
+						   asp-route-page="@i">
+							@i
+						</a>
+					</li>
+				}
 
-                <!-- Next -->
-                <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
-                    <a class="page-link"
-                       asp-action="Index"
-                       asp-route-categoryId="@ViewBag.CategoryId"
-                       asp-route-cinemaId="@ViewBag.CinemaId"
-                       asp-route-page="@(ViewBag.CurrentPage + 1)">
-                        Next
-                    </a>
-                </li>
+				<!-- Next -->
+				<li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+					<a class="page-link"
+					   asp-action="Index"
+					   asp-route-categoryId="@ViewBag.CategoryId"
+					   asp-route-cinemaId="@ViewBag.CinemaId"
+					   asp-route-page="@(ViewBag.CurrentPage + 1)">
+						Next
+					</a>
+				</li>
 
-            </ul>
-        </nav>
-    }
+			</ul>
+		</nav>
+	}
 </main>
+
+@section Scripts{
+	<partial name="_NotificationPartial" />
+}

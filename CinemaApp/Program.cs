@@ -1,6 +1,8 @@
 using CinemaApp.Repositories;
 using CinemaApp.Repositories.IRepositories;
+using CinemaApp.Utilities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemaApp
@@ -21,14 +23,17 @@ namespace CinemaApp
                 ));
 
             builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            builder.Services.AddTransient<IEmailSender,EmailSender>();
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
+           builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
             {
                 option.User.RequireUniqueEmail = true;
                 option.Password.RequiredLength = 8;
                 option.Password.RequireNonAlphanumeric = false;
+                option.SignIn.RequireConfirmedEmail = true;
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
 
            var app = builder.Build();

@@ -37,12 +37,7 @@ namespace CinemaApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var movies = await _movieRepo.GetAsync(
-                includes: new Expression<Func<Movie, object>>[]
-                {
-                    m => m.Category,
-                    m => m.Cinema
-                });
+            var movies = await _movieRepo.GetAsync(includes: [m => m.Category, m => m.Cinema]);
 
             return View(movies);
         }
@@ -86,7 +81,6 @@ namespace CinemaApp.Areas.Admin.Controllers
                 return View(movie);
             }
 
-            // حفظ الصورة الأساسية
             if (MainImage is not null && MainImage.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(MainImage.FileName);
@@ -122,7 +116,6 @@ namespace CinemaApp.Areas.Admin.Controllers
             await _movieRepo.AddAsync(movie);
             await _movieRepo.CommitAsync();
 
-            // إضافة الممثلين للفيلم
             if (Actors != null && Actors.Count > 0)
             {
                 foreach (var actorId in Actors)
@@ -190,7 +183,7 @@ namespace CinemaApp.Areas.Admin.Controllers
             existingMovie.CinemaId = movie.CinemaId;
             existingMovie.CategoryId = movie.CategoryId;
 
-            // الصورة الرئيسية
+            
             if (Img != null && Img.Length > 0)
             {
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(Img.FileName);
@@ -204,7 +197,7 @@ namespace CinemaApp.Areas.Admin.Controllers
                 existingMovie.MainImage = fileName;
             }
 
-            // الصور الفرعية
+            
             if (SubImgs != null && SubImgs.Count > 0)
             {
                 existingMovie.SubImages = new List<string>();
