@@ -1,12 +1,37 @@
-﻿@if (@TempData["success-notification"] is not null)
-{
-    <script>
-        toastr.success('@TempData["success-notification"]')
-    </script>
-}
-else if (@TempData["error-notification"] is not null)
-{
-    <script>
-        toastr.error('@TempData["error-notification"]')
-    </script>
-}
+﻿<script>
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "7000",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    $(function () {
+        @if (TempData["success-notification"] != null)
+        {
+                <text>toastr.success("@Html.Raw(TempData["success-notification"])");</text>
+        }
+
+        @if (TempData["error-notification"] != null)
+        {
+                <text>toastr.error("@Html.Raw(TempData["error-notification"])");</text>
+        }
+    });
+</script>
+
+<style>
+    .toast {
+        opacity: 1 !important;
+        border-radius: 10px !important;
+    }
+
+    .toast-success {
+        background-color: forestgreen !important;
+    }
+
+    .toast-error {
+        background-color: #dc3545 !important;
+    }
+</style>

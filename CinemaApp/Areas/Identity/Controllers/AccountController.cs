@@ -1,6 +1,8 @@
 ﻿using CinemaApp.Models;
 using CinemaApp.Repositories.IRepositories;
+using CinemaApp.Utilities;
 using CinemaApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +13,8 @@ using System.Threading.Tasks;
 namespace CinemaApp.Areas.Identity.Controllers
 {
     [Area("Identity")]
+    
+
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManger;
@@ -62,7 +66,7 @@ namespace CinemaApp.Areas.Identity.Controllers
             await _emailSender.SendEmailAsync(registerVM.Email, "CinemaApp - Confirm Your Email",
                 $"<h1>Confirm Your Email By Clicking <a href={link}>Here</a></h1>");
 
-
+            TempData["success-notification"] = "Create Account Successfully , Confirm your Email by Check Your Email box";
             return RedirectToAction(nameof(Login));
         }
 

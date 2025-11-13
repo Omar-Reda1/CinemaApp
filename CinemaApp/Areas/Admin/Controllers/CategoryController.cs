@@ -1,9 +1,12 @@
 ﻿using CinemaApp.Repositories.IRepositories;
+using CinemaApp.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE},{SD.EMPLOYEE_ROLE}")]
     public class CategoryController : Controller
     {
         private readonly IRepository<Category> _categoryRepository;
@@ -35,7 +38,9 @@ namespace CinemaApp.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
         [HttpGet]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
         public async Task<IActionResult> Edit(int id)
         {
             var category = await _categoryRepository.GetOneAsync(c => c.Id == id);
@@ -46,6 +51,7 @@ namespace CinemaApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
         public async Task<IActionResult> Edit(Category category)
         {
             if (!ModelState.IsValid)
@@ -62,6 +68,8 @@ namespace CinemaApp.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _categoryRepository.GetOneAsync(c => c.Id == id);

@@ -114,13 +114,20 @@
                     <span>@actor.Name</span>
                     <p class="job">Actor</p>
 
-                    <div class="btn-group">
-                        <a asp-action="Edit" asp-route-id="@actor.Id" class="edit-btn">Edit</a>
+                    @if (User.IsInRole(SD.SUPER_ADMIN_ROLE) || User.IsInRole(SD.ADMIN_ROLE))
+                    {
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@actor.Id" class="edit-btn">Edit</a>
 
-                        <form class="delete-btn" asp-action="Delete" asp-route-id="@actor.Id" method="post" style="display:inline;">
-                            <button type="submit" class="delete-btn">Delete</button>
-                        </form>
-                    </div>
+                            <form class="delete-btn" asp-action="Delete" asp-route-id="@actor.Id" method="post" style="display:inline;">
+                                <button type="submit" class="delete-btn">Delete</button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>No Actions!</div>
+                    }
                 </div>
             }
         </div>

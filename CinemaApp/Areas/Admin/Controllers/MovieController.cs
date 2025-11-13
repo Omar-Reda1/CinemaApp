@@ -1,6 +1,8 @@
 ﻿using CinemaApp.Models;
 using CinemaApp.Repositories.IRepositories;
+using CinemaApp.Utilities;
 using CinemaApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +12,7 @@ using System.Linq.Expressions;
 namespace CinemaApp.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE},{SD.EMPLOYEE_ROLE}")]
     public class MovieController : Controller
     {
         private readonly ILogger<MovieController> _logger;
@@ -152,6 +155,7 @@ namespace CinemaApp.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
         public async Task<IActionResult> Edit(int id)
         {
             var movie = await _movieRepo.GetOneAsync(m => m.Id == id);
@@ -171,6 +175,7 @@ namespace CinemaApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
         public async Task<IActionResult> Edit(Movie movie, IFormFile Img, List<IFormFile> SubImgs)
         {
             var existingMovie = await _movieRepo.GetOneAsync(m => m.Id == movie.Id);
@@ -223,6 +228,7 @@ namespace CinemaApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{SD.SUPER_ADMIN_ROLE},{SD.ADMIN_ROLE}")]
         public async Task<IActionResult> Delete(int id)
         {
             var movie = await _movieRepo.GetOneAsync(m => m.Id == id);

@@ -121,7 +121,10 @@
                 });
             });
         });
+        {
+            await Html.RenderPartialAsync("_NotificationPartial");
+        }
     </script>
 
-    <partial name="_ValidationScriptsPartial" />
+    
 }

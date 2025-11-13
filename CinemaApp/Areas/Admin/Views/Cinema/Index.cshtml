@@ -121,12 +121,19 @@
                         <span>@cinema.Name</span>
                         <p class="subtitle">Cinema</p>
                     </div>
-                    <div class="icons">
-                        <a asp-action="Edit" asp-route-id="@cinema.Id" class="btn Edit">Edit</a>
-                        <form class="delete-btn" asp-action="Delete" asp-route-id="@cinema.Id" method="post" style="display:inline;">
-                            <button type="submit" class="btn Danger">Delete</button>
-                        </form>
-                    </div>
+                    @if (User.IsInRole(SD.SUPER_ADMIN_ROLE) ||User.IsInRole( SD.ADMIN_ROLE))
+                    {
+                        <div class="icons">
+                            <a asp-action="Edit" asp-route-id="@cinema.Id" class="btn Edit">Edit</a>
+                            <form class="delete-btn" asp-action="Delete" asp-route-id="@cinema.Id" method="post" style="display:inline;">
+                                <button type="submit" class="btn Danger">Delete</button>
+                            </form>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>No Actions!</div>
+                    }
                 </div>
             }
         </div>

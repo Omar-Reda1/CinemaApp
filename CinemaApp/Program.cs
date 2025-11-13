@@ -1,6 +1,7 @@
 using CinemaApp.Repositories;
 using CinemaApp.Repositories.IRepositories;
 using CinemaApp.Utilities;
+using CinemaApp.Utilities.DBInitializer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -35,8 +36,13 @@ namespace CinemaApp
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            builder.Services.AddScoped<IDBInitializer,DBInitializer>();
+            var app = builder.Build();
 
-           var app = builder.Build();
+            var scope = app.Services.CreateScope();
+            var service = scope.ServiceProvider.GetService<IDBInitializer>();
+            service!.Initialize();
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
