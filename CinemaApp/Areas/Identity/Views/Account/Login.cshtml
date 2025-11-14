@@ -10,7 +10,6 @@
         <form asp-action="Login" asp-controller="Account" method="post" class="login-form" id="loginForm" novalidate>
             @Html.AntiForgeryToken()
 
-            <!-- لعرض أخطاء الموديل -->
             <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
             <div class="form-group">
@@ -26,10 +25,7 @@
                 <div class="input-wrapper password-wrapper">
                     <input asp-for="Password" class="form-control" autocomplete="current-password" placeholder=" " />
                     <label asp-for="Password"></label>
-                    <button type="button"
-                            class="password-toggle"
-                            id="passwordToggle"
-                            aria-label="Toggle password visibility">
+                    <button type="button" class="password-toggle" id="passwordToggle" aria-label="Toggle password visibility">
                         <span class="eye-icon"></span>
                     </button>
                     <span class="focus-border"></span>
@@ -63,11 +59,17 @@
                 <span class="social-icon google-icon"></span>
                 Google
             </button>
-            <button type="button" class="social-btn github-btn">
-                <span class="social-icon github-icon"></span>
-                GitHub
+
+            <button type="button" class="social-btn facebook-btn">
+                <span class="social-icon facebook-icon"></span>
+                Facebook
             </button>
         </div>
+
+        <!-- 🔥 فورم مخفي للـ External Login -->
+        <form id="externalLoginForm" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+            <input type="hidden" name="provider" id="providerInput" />
+        </form>
 
         <div class="signup-link">
             <p>Don't have an account? <a asp-action="Register" asp-controller="Account">Register</a></p>
@@ -84,12 +86,24 @@
 
 @section Scripts {
     <script>
+        // 🔥 تشغيل زرار Google Login
+        document.querySelector(".google-btn").addEventListener("click", function () {
+            document.getElementById("providerInput").value = "Google"; // مهم تكون lowercase
+            document.getElementById("externalLoginForm").submit();
+        });
+
+            // تشغيل Facebook Login
+        document.querySelector(".facebook-btn").addEventListener("click", function () {
+            document.getElementById("providerInput").value = "Facebook";
+            document.getElementById("externalLoginForm").submit();
+        });
+
+        // إظهار وإخفاء الباسورد
         document.addEventListener("DOMContentLoaded", function () {
             const toggles = document.querySelectorAll(".password-toggle");
 
             toggles.forEach(toggle => {
                 toggle.addEventListener("click", function () {
-                    // بيختار الـ input اللي قبله
                     const input = this.parentElement.querySelector("input");
                     const eyeIcon = this.querySelector(".eye-icon");
 

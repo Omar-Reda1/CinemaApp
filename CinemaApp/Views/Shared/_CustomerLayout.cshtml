@@ -70,10 +70,11 @@
                     <span>Logout</span>
                     <ion-icon name="log-in"></ion-icon>
                 </a>
-                <a href="/Identity/Profile" class="navbar-signin">
-                    <span>Welcome</span>
-                    <ion-icon name="log-in"></ion-icon>
-                </a>
+                    <a href="/Identity/Profile" class="navbar-signin d-flex align-items-center">
+                        <span class="me-2">Welcome</span>
+                        <span>@User.Identity.Name</span>
+                        <ion-icon name="log-in" class="ms-2"></ion-icon>
+                    </a>
                 }
             </div>
         </div>

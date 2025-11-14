@@ -6,6 +6,7 @@ using CinemaApp.Utilities.DBInitializer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 namespace CinemaApp
 {
@@ -40,6 +41,34 @@ namespace CinemaApp
             builder.Services.RegisterMapsterConfig();
 
             builder.Services.AddScoped<IDBInitializer,DBInitializer>();
+
+            //AccessDenid
+            builder.Services.ConfigureApplicationCookie(option =>
+            {
+                option.LoginPath = $"/Identity/Account/Login"; //Default Login Path
+                option.AccessDeniedPath = $"/Identity/Account/AccessDenied"; //Default Access Denied Path
+            });
+            // External Login With Google
+            builder.Services.AddAuthentication()
+                .AddGoogle("Google", opt =>
+                {
+                    var googleAuth = builder.Configuration.GetSection("Authentication:Google");
+                    opt.ClientId = googleAuth["ClientId"];
+                    opt.ClientSecret = googleAuth["ClientSecret"];
+                    opt.SignInScheme=IdentityConstants.ExternalScheme;
+                });
+
+            // External Login With FaceBook
+
+            builder.Services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = builder.Configuration["Authentication:Facebook:AppId"] ?? "";
+                facebookOptions.AppSecret = builder.Configuration["Authentication:Facebook:AppSecret"] ?? "";
+            });
+
+
+
+
             var app = builder.Build();
 
             var scope = app.Services.CreateScope();

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CinemaApp.Areas.Identity.Controllers
@@ -72,6 +73,8 @@ namespace CinemaApp.Areas.Identity.Controllers
 
             await _emailSender.SendEmailAsync(registerVM.Email, "CinemaApp - Confirm Your Email",
                 $"<h1>Confirm Your Email By Clicking <a href={link}>Here</a></h1>");
+            //Add Users To Customer Role
+           await _userManger.AddToRoleAsync(user,SD.CUSTOMER_ROLE);
 
             TempData["success-notification"] = "Create Account Successfully , Confirm your Email by Check Your Email box";
             return RedirectToAction(nameof(Login));
@@ -279,5 +282,85 @@ namespace CinemaApp.Areas.Identity.Controllers
             TempData["success-notification"] = "Change Password Successfully";
             return RedirectToAction(nameof(Login));
         }
+
+        //Google Actions
+        [HttpPost]
+        public IActionResult ExternalLogin(string provider, string returnUrl = null)
+        {
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        {
+            if (remoteError != null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+                return RedirectToAction(nameof(Login));
+            }
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            // Try signing in with an external login
+            var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+            if (signInResult.Succeeded)
+            {
+                return LocalRedirect(returnUrl ?? "/");
+            }
+
+            // If the user cannot log in, try finding them by email
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            var username = info.Principal.FindFirstValue(ClaimTypes.Name);
+            if (email != null)
+            {
+                var user = await _userManger.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    // Create a new user if they do not exist
+                    Random random = new Random();
+                    int r = random.Next(1000, 9999);
+                    user = new ApplicationUser
+                    {
+                        UserName = username.Replace(" ", "") + r.ToString(),
+                        Email = email,
+                        EmailConfirmed = true
+                    };
+                    var createUserResult = await _userManger.CreateAsync(user);
+                    if (!createUserResult.Succeeded)
+                    {
+                        ModelState.AddModelError(string.Empty, "Error creating user.");
+                        return RedirectToAction(nameof(Login));
+                    }
+                }
+
+                // Ensure the external login is linked
+                var existingLogins = await _userManger.GetLoginsAsync(user);
+                var hasGoogleLogin = existingLogins.Any(l => l.LoginProvider == info.LoginProvider);
+
+                if (!hasGoogleLogin)
+                {
+                    var addLoginResult = await _userManger.AddLoginAsync(user, info);
+                    if (!addLoginResult.Succeeded)
+                    {
+                        ModelState.AddModelError(string.Empty, "Error linking external login.");
+                        return RedirectToAction(nameof(Login));
+                    }
+                }
+
+                // Sign in the user
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return LocalRedirect(returnUrl ?? "/");
+            }
+
+            return RedirectToAction(nameof(Login));
+        }
+
+
+
     }
 }

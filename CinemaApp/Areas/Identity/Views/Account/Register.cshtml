@@ -7,15 +7,14 @@
             <p>Sign up to new account</p>
         </div>
 
-        <form asp-action="Register" asp-controller="Account"  method="post" id="RegisterForm" novalidate>
+        <form asp-action="Register" asp-controller="Account" method="post" id="RegisterForm" novalidate>
             @Html.AntiForgeryToken()
 
             <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
-
             <div class="form-group">
                 <div class="input-wrapper">
-                    <input asp-for="FirstName" class="form-control" placeholder=" "/>
+                    <input asp-for="FirstName" class="form-control" placeholder=" " />
                     <label asp-for="FirstName"></label>
                     <span class="focus-border"></span>
                 </div>
@@ -83,16 +82,24 @@
             <span>or continue with</span>
         </div>
 
+        <!-- هنا شغلت social-login -->
         <div class="social-login">
             <button type="button" class="social-btn google-btn">
                 <span class="social-icon google-icon"></span>
                 Google
             </button>
-            <button type="button" class="social-btn github-btn">
-                <span class="social-icon github-icon"></span>
-                GitHub
+
+            <button type="button" class="social-btn facebook-btn">
+                <span class="social-icon facebook-icon"></span>
+                Facebook
             </button>
         </div>
+
+
+        <!-- فورم مخفي للـ external login -->
+        <form id="externalLoginForm" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+            <input type="hidden" name="provider" id="providerInput" />
+        </form>
 
         <div class="signup-link">
             <p>Have an account? <a asp-action="Login" asp-controller="Account">Login</a></p>
@@ -102,12 +109,24 @@
 
 @section Scripts {
     <script>
+        // تشغيل Google Login
+        document.querySelector(".google-btn").addEventListener("click", function () {
+            document.getElementById("providerInput").value = "Google";
+            document.getElementById("externalLoginForm").submit();
+        });
+                // تشغيل Facebook Login
+        document.querySelector(".facebook-btn").addEventListener("click", function () {
+            document.getElementById("providerInput").value = "Facebook";
+            document.getElementById("externalLoginForm").submit();
+        });
+
+
+        // تشغيل إظهار/إخفاء الباسورد
         document.addEventListener("DOMContentLoaded", function () {
             const toggles = document.querySelectorAll(".password-toggle");
 
             toggles.forEach(toggle => {
                 toggle.addEventListener("click", function () {
-                    // بيختار الـ input اللي قبله
                     const input = this.parentElement.querySelector("input");
                     const eyeIcon = this.querySelector(".eye-icon");
 
@@ -121,10 +140,9 @@
                 });
             });
         });
-        {
-            await Html.RenderPartialAsync("_NotificationPartial");
-        }
     </script>
 
-    
+    @{
+        await Html.RenderPartialAsync("_NotificationPartial");
+    }
 }
