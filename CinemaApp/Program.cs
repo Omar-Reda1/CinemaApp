@@ -1,3 +1,4 @@
+using CinemaApp.Configurations;
 using CinemaApp.Repositories;
 using CinemaApp.Repositories.IRepositories;
 using CinemaApp.Utilities;
@@ -35,6 +36,8 @@ namespace CinemaApp
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            builder.Services.RegisterMapsterConfig();
 
             builder.Services.AddScoped<IDBInitializer,DBInitializer>();
             var app = builder.Build();

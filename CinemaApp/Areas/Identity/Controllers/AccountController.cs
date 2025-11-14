@@ -30,6 +30,13 @@ namespace CinemaApp.Areas.Identity.Controllers
             _applicationUserOTPRepository = applicationUserOTPRepository;
         }
 
+        public async Task<IActionResult> Logout()
+        {
+           await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(Login));
+        }
+
+
         public IActionResult Register()
         {
             return View();
