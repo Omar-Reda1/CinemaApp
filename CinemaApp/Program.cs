@@ -6,6 +6,7 @@ using CinemaApp.Utilities.DBInitializer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 using System.Configuration;
 
 namespace CinemaApp
@@ -67,7 +68,8 @@ namespace CinemaApp
             });
 
 
-
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
             var app = builder.Build();
 

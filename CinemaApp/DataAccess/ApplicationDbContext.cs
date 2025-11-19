@@ -18,8 +18,10 @@ namespace CinemaApp.DataAccess
         public DbSet<Actor> Actors { get; set; }
         public DbSet<MovieActor> MovieActors { get; set; }
         public DbSet<ApplicationUserOTP> ApplicationUserOTPs { get; set; }
+        public DbSet<Promotion> Promotions { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
-       
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,7 +38,10 @@ namespace CinemaApp.DataAccess
                 .HasOne(ma => ma.Actor)
                 .WithMany(a => a.MovieActors)
                 .HasForeignKey(ma => ma.ActorId);
-             
+
+            modelBuilder.Entity<Cart>()
+               .HasKey(e => new { e.MovieId, e.ApplicationUserId });
+
             base.OnModelCreating(modelBuilder);
         }
 

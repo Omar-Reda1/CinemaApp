@@ -1,0 +1,114 @@
+﻿@model IEnumerable<Promotion>
+
+<div class="container">
+    <div class="row mb-3 align-items-center my-3">
+        <div class="col-md-6">
+            <h2 class="display-6">All Promotions</h2>
+        </div>
+        <div class="col-md-6 text-md-end text-start mt-2 mt-md-0">
+            <a href="/Admin/Promotion/Create" class="btn btn-success">Create</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Movie</th>
+                        <th>Code</th>
+                        <th>Discount</th>
+                        <th>Publish At</th>
+                        <th>Valid To</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+
+                            <td>@item.Movie?.Name</td>
+
+                            <td>@item.Code</td>
+
+                            <td>@item.Discount %</td>
+
+                            <td>@item.PublishAt.ToString("yyyy-MM-dd")</td>
+
+                            <td>@item.ValidTo.ToString("yyyy-MM-dd")</td>
+
+                            <td>
+                                @if (item.IsValid)
+                                {
+                                    <span class="badge text-bg-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge text-bg-danger">Expired</span>
+                                }
+                            </td>
+
+                            <td>
+                                @if (User.IsInRole(SD.SUPER_ADMIN_ROLE) || User.IsInRole(SD.ADMIN_ROLE))
+                                {
+                                    <a href="/Admin/Promotion/Edit/@item.Id" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="/Admin/Promotion/Delete/@item.Id" class="btn btn-danger btn-sm btn-delete">Delete</a>
+                                }
+                                else
+                                {
+                                    <span>No Actions!</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const deleteButtons = document.querySelectorAll(".btn-delete");
+
+        deleteButtons.forEach(button => {
+            button.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                const url = this.getAttribute("href");
+
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "This action cannot be undone!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                          title: "Deleted!",
+                          text: "Promotion deleted successfully.",
+                          icon: "success"
+                        });
+
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+@section Scripts {
+    <partial name="_NotificationPartial" />
+}

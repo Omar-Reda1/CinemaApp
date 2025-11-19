@@ -47,6 +47,7 @@
                         <ion-icon name="close-circle-outline"></ion-icon>
                     </button>
                 </form>
+              
 
                 <button class="navbar-search-btn">
                     <ion-icon name="search"></ion-icon>
@@ -62,10 +63,16 @@
                         <span>Login</span>
                         <ion-icon name="log-in"></ion-icon>
                     </a>
+                  
                 }
                 else
                 {
-                    
+                    <a href="/Customer/Cart/Index" class="navbar-signin">
+                       <span>Cart</span>
+                        <ion-icon name="log-in"></ion-icon>
+                    </a>
+
+
                 <a href="/Identity/Account/Logout" class="navbar-signin">
                     <span>Logout</span>
                     <ion-icon name="log-in"></ion-icon>
@@ -75,6 +82,7 @@
                         <span>@User.Identity.Name</span>
                         <ion-icon name="log-in" class="ms-2"></ion-icon>
                     </a>
+                   
                 }
             </div>
         </div>
